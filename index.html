@@ -11,31 +11,50 @@
 <div class="phone">
     <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
+    <!-- SIDEBAR -->
     <div id="sidebar" class="sidebar">
-        <h3>Sidra Fatima</h3>
-        <p class="active-sidebar-link">Settings</p>
-        <p onclick="showPage('dashboard')">Groups</p>
+<h3 id="sidebarName">Sidra Fatima</h3>
+        <p id="sidebarSettings" class="active-sidebar-link">Settings</p>
+        <p id="sidebarGroups" onclick="showPage('dashboard')">Groups</p>
         <hr>
-        <p onclick="setTheme('dark')">Dark mode</p>
-<p onclick="setTheme('light')">Light mode</p>
-<p onclick="showLanguagePicker(true)">Language</p>
-<div id="languagePicker" style="display:none; background:#f5f5f5; border-radius:10px; padding:10px; margin-top:5px;">
-  <p onclick="applyLanguage('english')" style="padding:5px 0; cursor:pointer;">🇬🇧 English</p>
-  <p onclick="applyLanguage('hindi')" style="padding:5px 0; cursor:pointer;">🇮🇳 हिंदी</p>
-  <p onclick="applyLanguage('bengali')" style="padding:5px 0; cursor:pointer;">🇮🇳 বাংলা</p>
-  <p onclick="applyLanguage('telugu')" style="padding:5px 0; cursor:pointer;">🇮🇳 తెలుగు</p>
-  <p onclick="applyLanguage('tamil')" style="padding:5px 0; cursor:pointer;">🇮🇳 தமிழ்</p>
-  <p onclick="applyLanguage('marathi')" style="padding:5px 0; cursor:pointer;">🇮🇳 मराठी</p>
-  <p onclick="applyLanguage('gujarati')" style="padding:5px 0; cursor:pointer;">🇮🇳 ગુજરાતી</p>
-  <p onclick="applyLanguage('kannada')" style="padding:5px 0; cursor:pointer;">🇮🇳 ಕನ್ನಡ</p>
-  <p onclick="applyLanguage('malayalam')" style="padding:5px 0; cursor:pointer;">🇮🇳 മലയാളം</p>
+        <p id="sidebarDark" onclick="setTheme('dark')">Dark mode</p>
+        <p id="sidebarLight" onclick="setTheme('light')">Light mode</p>
+        <p id="sidebarLanguage" onclick="showLanguagePicker(true)">Language</p>
+        <div id="languagePicker" class="language-picker">
+            <select id="langSelect" onchange="applyLanguage(this.value)" class="lang-select">
+                <option value="english">🇬🇧 English</option>
+                <option value="hindi">🇮🇳 Hindi</option>
+                <option value="telugu">🇮🇳 Telugu</option>
+                <option value="urdu">🇵 Urdu</option>
+            </select>
+        </div>
+        <div style="margin:8px 0;">
+    <label style="font-size:14px;">Currency</label>
+    <select id="currencySelect" onchange="changeCurrency(this.value)" class="lang-select">
+        <option value="₹">₹ INR</option>
+        <option value="$">$ USD</option>
+        <option value="€">€ EUR</option>
+        <option value="£">£ GBP</option>
+        <option value="¥">¥ JPY</option>
+        <option value="₩">₩ KRW</option>
+        <option value="₺">₺ TRY</option>
+        <option value="﷼">﷼ SAR</option>
+    </select>
 </div>
-<p onclick="alert('Currency: ₹ INR')">Currency <span class="float-right">₹ INR</span></p>
-<p onclick="alert('Split type: Equal')">Split type <span class="float-right">Equal</span></p>
-<p onclick="toggleNotifications()">Notifications <span class="float-right">ON</span></p>
-        <p class="logout-link" onclick="showPage('welcome')">Logout</p>
+        <div style="margin:8px 0;">
+    <label style="font-size:14px;">Split type</label>
+    <select id="splitSelect" onchange="changeSplit(this.value)" class="lang-select">
+    <option value="Equal" id="optEqual">Equal</option>
+    <option value="Percentage" id="optPercentage">Percentage</option>
+    <option value="Exact" id="optExact">Exact Amount</option>
+    <option value="Share" id="optShare">By Shares</option>
+</select>
+</div>
+        <p id="sidebarNotif" onclick="toggleNotifications()">Notifications <span class="float-right">ON</span></p>
+        <p id="sidebarLogout" class="logout-link" onclick="showPage('welcome')">Logout</p>
     </div>
 
+    <!-- PAGE: WELCOME -->
     <div class="page active" id="welcome">
         <div class="circle top"></div>
         <div class="circle bottom"></div>
@@ -47,23 +66,25 @@
         </div>
     </div>
 
+    <!-- PAGE: LOGIN -->
     <div class="page" id="login">
         <img src="logo.png" class="login-logo">
         <p class="tagline">Manage shared expenses without the stress.</p>
         <div class="tabs">
-            <button class="tab active-tab">Sign In</button>
+            <button class="tab active-tab" onclick="firebaseSignIn()">Sign In</button>
             <button class="tab" onclick="firebaseSignUp()">Sign Up</button>
         </div>
         <input type="text" placeholder="Email or Phone Number">
         <input type="password" placeholder="Password">
         <button class="primary-btn" onclick="firebaseSignIn()">Sign In</button>
-        <p style="text-align:center; font-size:12px; margin-top:15px; color:#999;">OR CONTINUE WITH</p>
-        <div style="display:flex; gap:10px; margin-top:10px;">
-            <button class="tab" style="border:1px solid #eee; padding:10px; border-radius:15px;" onclick="googleSignIn()">Google</button>
-<button class="tab" style="border:1px solid #eee; padding:10px; border-radius:15px;" onclick="showPage('dashboard')">Apple</button>
+        <p class="or-text">OR CONTINUE WITH</p>
+        <div class="social-btns">
+            <button class="tab social-btn" onclick="googleSignIn()">Google</button>
+            <button class="tab social-btn" onclick="showPage('dashboard')">Apple</button>
         </div>
     </div>
 
+    <!-- PAGE: DASHBOARD -->
     <div class="page" id="dashboard">
         <div class="header">
             <div class="menu-icon" onclick="toggleMenu()">☰</div>
@@ -80,6 +101,7 @@
         <button class="fab" onclick="showPage('addGroup')">+</button>
     </div>
 
+    <!-- PAGE: GROUP DETAIL -->
     <div class="page" id="apartment">
         <div class="header row-header">
             <div onclick="showPage('dashboard')" class="back-arrow">←</div>
@@ -90,723 +112,58 @@
         <button class="fab" onclick="showPage('addExpense')">+</button>
     </div>
 
-    <div class="page" id="addExpense">
+    <!-- PAGE: ADD EXPENSE -->
+<div class="page" id="addExpense">
     <div class="header">
         <div onclick="showPage('apartment')" class="back-arrow">←</div>
         <h3>Add Expense</h3>
     </div>
-    <label class="input-label">Item Name:</label>
+    <label class="input-label" id="itemNameLabel">Item Name:</label>
     <input type="text" id="expName" placeholder="e.g. Electricity">
-    <label class="input-label">Who Paid?</label>
-    <select id="payerSelect" style="width:100%; padding:12px; border:1px solid #eee; border-radius:10px; margin-bottom:15px; background:white; font-size:14px;"></select>
+    <button onclick="window.open('receipt-scanner.html','_blank','width=340,height=700')" 
+  style="width:100%; padding:10px; border:2px dashed #2d8cff; border-radius:12px; background:#f0f7ff; color:#2d8cff; font-weight:bold; cursor:pointer; margin-bottom:12px;">
+  📸 Scan Receipt Instead
+</button>
+    <label class="input-label" id="whoPaidLabel">Who Paid?</label>
+    <select id="payerSelect" class="payer-select"></select>
     <div class="amount-section">
         <p>Amount</p>
-        <input type="number" id="mainAmount" placeholder="₹ 0.00" class="amount-input">
+        <input type="number" id="mainAmount" placeholder="0.00" class="amount-input" oninput="updateSplitFields()">
     </div>
+
+    <label class="input-label" id="splitTypeLabel">Split Type</label>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+        <button id="splitBtnEqual" onclick="selectSplitType('Equal')" style="padding:10px; border-radius:10px; border:2px solid #2d8cff; background:#2d8cff; color:white; font-weight:bold; cursor:pointer;">⚖️ Equal</button>
+        <button id="splitBtnPercentage" onclick="selectSplitType('Percentage')" style="padding:10px; border-radius:10px; border:2px solid #eee; background:white; color:#555; font-weight:bold; cursor:pointer;">📊 Percent</button>
+        <button id="splitBtnExact" onclick="selectSplitType('Exact')" style="padding:10px; border-radius:10px; border:2px solid #eee; background:white; color:#555; font-weight:bold; cursor:pointer;">✏️ Exact</button>
+        <button id="splitBtnShare" onclick="selectSplitType('Share')" style="padding:10px; border-radius:10px; border:2px solid #eee; background:white; color:#555; font-weight:bold; cursor:pointer;">🔢 Shares</button>
+    </div>
+
+    <div id="splitCustomFields" style="display:none; margin-bottom:10px;">
+        <div id="splitInputsContainer"></div>
+        <p id="splitValidMsg" style="font-size:12px; margin-top:4px;"></p>
+    </div>
+
     <button class="primary-btn" onclick="calculateSplit()">Confirm Split</button>
 </div>
 
+    <!-- PAGE: ADD GROUP -->
     <div class="page" id="addGroup">
         <div class="header">
             <div onclick="showPage('dashboard')" class="back-arrow">←</div>
             <h3>New Group</h3>
         </div>
-        <label class="input-label">Group Name:</label>
+        <label class="input-label" id="groupNameLabel">Group Name:</label>
         <input type="text" id="groupInput" placeholder="e.g., Weekend Trip">
-        <label class="input-label">Group Members:</label>
+        <label class="input-label" id="groupMembersLabel">Group Members:</label>
         <input type="text" id="groupMembers" placeholder="Add names (e.g. Sidra, Sania)">
-        <label class="input-label">Description (optional):</label>
+        <label class="input-label" id="groupDescLabel">Description (optional):</label>
         <input type="text" id="groupDesc" placeholder="What is this group for?">
         <button class="primary-btn" onclick="addNewGroup()">Create Group</button>
     </div>
 
 </div>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBYJel4b02QXpbQU7tWc2dd1ns36hknUbY",
-    authDomain: "equapay-52729.firebaseapp.com",
-    projectId: "equapay-52729",
-    storageBucket: "equapay-52729.firebasestorage.app",
-    messagingSenderId: "100025932427",
-    appId: "1:100025932427:web:53cae98e55b45ca4ae528e"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-  window.firebaseSignIn = function() {
-    const email = document.querySelector('#login input[type=text]').value.trim();
-    const pass = document.querySelector('#login input[type=password]').value.trim();
-    if (!email || !pass) { alert('Please enter email and password'); return; }
-    signInWithEmailAndPassword(auth, email, pass)
-      .then(() => showPage('dashboard'))
-      .catch(() => alert('Wrong email or password!'));
-  }
-
-  window.firebaseSignUp = function() {
-    const email = document.querySelector('#login input[type=text]').value.trim();
-    const pass = document.querySelector('#login input[type=password]').value.trim();
-    if (!email || !pass) { alert('Please enter email and password'); return; }
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then(() => showPage('dashboard'))
-      .catch(err => alert(err.message));
-  }
-  window.googleSignIn = function() {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then(() => window.showPage('dashboard'))
-    .catch(err => alert(err.message));
-}
-let groups = [];
-let currentGroup = null;
-
-window.showPage = function(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar.classList.contains('open')) toggleMenu();
-}
-
-window.toggleMenu = function() {
-    const s = document.getElementById('sidebar');
-    const o = document.getElementById('overlay');
-    s.classList.toggle('open');
-    o.style.display = s.classList.contains('open') ? 'block' : 'none';
-}
-
-window.addNewGroup = function() {
-    const groupName = document.getElementById('groupInput').value.trim();
-    const membersInput = document.getElementById('groupMembers').value.trim();
-    if (!groupName || !membersInput) {
-        alert("Please enter group name and members");
-        return;
-    }
-    const membersArray = membersInput.split(',').map(m => m.trim());
-    groups.push({ name: groupName, members: membersArray, expenses: [], settled: [] });
-    document.getElementById('groupInput').value = "";
-    document.getElementById('groupMembers').value = "";
-    document.getElementById('groupDesc').value = "";
-    renderDashboard();
-    showPage('dashboard');
-}
-
-window.renderDashboard = function() {
-    const list = document.getElementById('groupList');
-    const noMsg = document.getElementById('noGroupsMsg');
-    list.innerHTML = '';
-    if (groups.length === 0) {
-        noMsg.style.display = 'block';
-        return;
-    }
-    noMsg.style.display = 'none';
-    groups.forEach((group, index) => {
-        const total = group.expenses.reduce((s, e) => s + e.amount, 0);
-        const card = document.createElement('div');
-        card.className = 'expense-card';
-        card.onclick = () => openGroup(index);
-        card.innerHTML = `
-            <div><strong>${group.name}</strong><br>
-            <small>${group.members.length} members • ${group.expenses.length} expenses</small></div>
-            <b class="${total > 0 ? 'red' : 'grey'}">₹${total}</b>
-        `;
-        list.appendChild(card);
-    });
-}
-
-window.openGroup = function(index) {
-    currentGroup = groups[index];
-    document.getElementById('groupTitle').innerText = currentGroup.name;
-
-    // Populate payer dropdown
-    const payerSelect = document.getElementById('payerSelect');
-    payerSelect.innerHTML = currentGroup.members.map(m => 
-        `<option value="${m}">${m}</option>`
-    ).join('');
-
-    renderChart();
-    renderExpenseLog();
-    showPage('apartment');
-}
-
-window.renderChart = function() {
-    const chart = document.getElementById('chartMembers');
-    chart.innerHTML = '';
-    const members = currentGroup.members;
-    const owedMap = {};
-    members.forEach(m => owedMap[m.trim()] = 0);
-    (currentGroup.expenses || []).forEach(exp => {
-        const perPerson = exp.amount / members.length;
-        members.forEach(m => {
-            if (m.trim() !== exp.payer) owedMap[m.trim()] += perPerson;
-        });
-    });
-    // Subtract settled amounts
-    (currentGroup.settled || []).forEach(s => {
-        owedMap[s.member] = Math.max(0, (owedMap[s.member] || 0) - s.amount);
-    });
-    const maxOwed = Math.max(...Object.values(owedMap), 1);
-    members.forEach(member => {
-        const owed = owedMap[member.trim()];
-        const barHeight = Math.max(20, (owed / maxOwed) * 110);
-        const label = owed > 0 ? '₹' + Math.round(owed) : 'paid';
-        chart.innerHTML += `
-            <div class="bar-wrapper">
-                <div class="bar" style="height:${barHeight}px;">
-                    <span>${label}</span>
-                </div>
-                <strong>${member.trim()}</strong>
-            </div>
-        `;
-    });
-}
-
-window.renderExpenseLog = function() {
-    const resultBox = document.getElementById('resultContainer');
-    resultBox.innerHTML = '';
-
-    if (currentGroup.expenses.length === 0) {
-        resultBox.innerHTML = `
-            <div style="text-align:center; color:#aaa; padding:20px;">
-                <div style="font-size:30px;">🧾</div>
-                <p><b>No expenses yet</b></p>
-                <p style="font-size:12px;">Tap + to add one</p>
-            </div>`;
-        return;
-    }
-
-    // Expense history
-    resultBox.innerHTML += `<p style="font-weight:bold; color:#555; font-size:13px; margin:10px 0 8px;">Expense History</p>`;
-    [...currentGroup.expenses].reverse().forEach(exp => {
-        const perPerson = (exp.amount / currentGroup.members.length).toFixed(2);
-        const splits = currentGroup.members.map(m => {
-            if (m === exp.payer) return `<span style="font-size:10px; background:#e6f4ea; color:#5b8f67; padding:2px 6px; border-radius:20px;">${m} paid</span>`;
-            return `<span style="font-size:10px; background:#fde8ee; color:#d46b82; padding:2px 6px; border-radius:20px;">${m} owes ₹${perPerson}</span>`;
-        }).join(' ');
-        resultBox.innerHTML += `
-            <div style="background:white; padding:12px; border-radius:12px; margin-bottom:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold;">
-                    <span>${exp.name}</span><span>₹${exp.amount}</span>
-                </div>
-                <div style="margin-top:5px;">${splits}</div>
-            </div>`;
-    });
-
-    // Settle up section
-    resultBox.innerHTML += `<p style="font-weight:bold; color:#555; font-size:13px; margin:15px 0 8px;">Settle Up</p>`;
-    const owedMap = {};
-    currentGroup.members.forEach(m => owedMap[m] = 0);
-    currentGroup.expenses.forEach(exp => {
-        const perPerson = exp.amount / currentGroup.members.length;
-        currentGroup.members.forEach(m => {
-            if (m !== exp.payer) owedMap[m] += perPerson;
-        });
-    });
-    (currentGroup.settled || []).forEach(s => {
-        owedMap[s.member] = Math.max(0, owedMap[s.member] - s.amount);
-    });
-
-    let anyUnsettled = false;
-    currentGroup.members.forEach(member => {
-        const owed = owedMap[member];
-        if (owed > 0) {
-            anyUnsettled = true;
-            resultBox.innerHTML += `
-                <div style="background:white; padding:12px; border-radius:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
-                    <div>
-                        <span style="font-size:13px;">${member}</span><br>
-                        <span style="color:#d46b82; font-size:12px;">owes ₹${owed.toFixed(2)}</span>
-                    </div>
-                    <button onclick="settleUp('${member}', ${owed})" 
-                        style="background:#5b8f67; color:white; border:none; padding:8px 12px; border-radius:10px; font-size:12px; cursor:pointer;">
-                        Settle ✓
-                    </button>
-                </div>`;
-        }
-    });
-
-    if (!anyUnsettled) {
-        resultBox.innerHTML += `
-            <div style="text-align:center; color:#5b8f67; padding:15px; background:white; border-radius:12px;">
-                🎉 <b>All settled up!</b>
-            </div>`;
-    }
-}
-
-window.settleUp = function(member, amount) {
-    if (!currentGroup.settled) currentGroup.settled = [];
-    currentGroup.settled.push({ member, amount });
-    window.renderChart();
-    window.renderExpenseLog();
-}
-
-window.calculateSplit = function() {
-    const amt = document.getElementById('mainAmount').value;
-    const name = document.getElementById('expName').value.trim();
-    const payer = document.getElementById('payerSelect').value;
-    if (!amt || !name || !currentGroup) {
-        alert("Please enter item name and amount");
-        return;
-    }
-    if (!currentGroup.expenses) currentGroup.expenses = [];
-    currentGroup.expenses.push({ name, amount: parseFloat(amt), payer });
-    document.getElementById('expName').value = '';
-    document.getElementById('mainAmount').value = '';
-    window.renderChart();
-    window.renderExpenseLog();
-    window.renderDashboard();
-    window.showPage('apartment');
-}
-window.setTheme = function(mode) {
-  if (mode === 'dark') {
-    document.querySelector('.phone').style.background = '#1a1a1a';
-    document.querySelector('.phone').style.color = 'white';
-    document.querySelector('.sidebar').style.background = '#2d2d2d';
-    document.querySelector('.sidebar').style.color = 'white';
-  } else {
-    document.querySelector('.phone').style.background = '';
-    document.querySelector('.phone').style.color = '';
-    document.querySelector('.sidebar').style.background = '';
-    document.querySelector('.sidebar').style.color = '';
-  }
-  toggleMenu();
-}
-const translations = {
-  english: {
-    hello: "Hello, User 👋",
-    welcome: "Welcome to Equapay",
-    getStarted: "Get Started",
-    tagline: "Manage shared expenses without the stress.",
-    signIn: "Sign In",
-    signUp: "Sign Up",
-    emailPlaceholder: "Email or Phone Number",
-    passwordPlaceholder: "Password",
-    orContinue: "OR CONTINUE WITH",
-    wrongPassword: "Wrong email or password!",
-    enterEmailPass: "Please enter email and password",
-    yourGroups: "Your Groups",
-    searchGroups: "Search groups...",
-    noGroups: "No groups yet",
-    tapCreate: "Tap + to create your first group",
-    newGroup: "New Group",
-    groupName: "Group Name",
-    groupMembers: "Group Members",
-    description: "Description (optional)",
-    createGroup: "Create Group",
-    enterGroupDetails: "Please enter group name and members",
-    itemName: "Item Name",
-    whoPaid: "Who Paid?",
-    amount: "Amount",
-    confirmSplit: "Confirm Split",
-    enterExpense: "Please enter item name and amount",
-    expenseHistory: "Expense History",
-    settleUp: "Settle Up",
-    noExpenses: "No expenses yet",
-    tapAdd: "Tap + to add one",
-    allSettled: "🎉 All settled up!",
-    settle: "Settle ✓",
-    settings: "Settings",
-    groups: "Groups",
-    darkMode: "Dark mode",
-    lightMode: "Light mode",
-    language: "Language",
-    currency: "Currency",
-    splitType: "Split type",
-    notifications: "Notifications",
-    logout: "Logout"
-  },
-  hindi: {
-    hello: "नमस्ते, उपयोगकर्ता 👋",
-    welcome: "Equapay में आपका स्वागत है",
-    getStarted: "शुरू करें",
-    tagline: "बिना तनाव के साझ खर्च प्रबंधित करें।",
-    signIn: "साइन इन करें",
-    signUp: "साइन अप करें",
-    emailPlaceholder: "ईमेल या फोन नंबर",
-    passwordPlaceholder: "पासवर्ड",
-    orContinue: "या इसके साथ जरी रखें",
-    wrongPassword: "गलत ईमेल या पासवर्ड!",
-    enterEmailPass: "कृपया ईमेल और पासवर्ड दर्ज करें",
-    yourGroups: "आपके समूह",
-    searchGroups: "समूह खोजें...",
-    noGroups: "अभी कोई समूह नहीं",
-    tapCreate: "+ दबाएं अपना पहला समूह बनाएं",
-    newGroup: "नया समूह",
-    groupName: "समूह का नाम",
-    groupMembers: "समूह के सदस्य",
-    description: "विवरण (वैकल्पिक)",
-    createGroup: "समूह बनाएं",
-    enterGroupDetails: "कृपया समूह का नाम और सदस्य दर्ज करें",
-    itemName: "वस्तु का नाम",
-    whoPaid: "किसने भुगतान किया?",
-    amount: "राशि",
-    confirmSplit: "विभाजन की पुष्टि करें",
-    enterExpense: "कृपया वस्तु का नाम और राशि दर्ज करें",
-    expenseHistory: "खर्च इतिहास",
-    settleUp: "हसाब चुकाएं",
-    noExpenses: "अभी कोई खर्च नहीं",
-    tapAdd: "+ दबाएं एक जोड़ें",
-    allSettled: "🎉 सब हिसाब चुका!",
-    settle: "चकाएं ✓",
-    settings: "सेटिंग्स",
-    groups: "समूह",
-    darkMode: "डार्क मोड",
-    lightMode: "लइट मोड",
-    language: "भाषा",
-    currency: "मुद्रा",
-    splitType: "विभाजन प्रकार",
-    notifications: "सूचनाएं",
-    logout: "लॉग आउट"
-  },
-  bengali: {
-    hello: "হ্যালো, ব্যবহারকারী 👋",
-    welcome: "Equapay তে আপনাকে স্বাগতম",
-    getStarted: "শুরু করুন",
-    tagline: "চাপ ছাড়াই ভাগ করা খরচ পরিচালনা করুন।",
-    signIn: "সাইন ইন করুন",
-    signUp: "সাইন আপ করুন",
-    emailPlaceholder: "ইমেইল বা ফোন নম্বর",
-    passwordPlaceholder: "পাসওয়ার্",
-    orContinue: "অথবা এর সাথে চালিয়ে যান",
-    wrongPassword: "ভুল ইমেইল বা পাসওয়ার্ড!",
-    enterEmailPass: "অনুগ্রহ করে ইমেইল এব পাসওয়ার্ড দিন",
-    yourGroups: "আপনার গ্রুপ",
-    searchGroups: "গ্রুপ খুজুন...",
-    noGroups: "এখনো কোনো গ্রুপ নেই",
-    tapCreate: "+ চাপুন আপনার প্রথম গ্রুপ তৈরি করুন",
-    newGroup: "নতুন গ্রুপ",
-    groupName: "গ্রুপের নাম",
-    groupMembers: "গ্রুপের সদস্য",
-    description: "বিবরণ (ঐচক)",
-    createGroup: "গ্রুপ তৈরি করুন",
-    enterGroupDetails: "অনুগ্রহ করে গ্রুপের নাম এবং সদস্য দিন",
-    itemName: "আইটেমের নাম",
-    whoPaid: "কে পেমেন্ট করেছ?",
-    amount: "পরিমাণ",
-    confirmSplit: "বিভাজন নিশ্চিত করন",
-    enterExpense: "অনুগ্রহ করে আইটেমের নাম এবং পরিমাণ দিন",
-    expenseHistory: "খরচের ইতিহাস",
-    settleUp: "হিসাব মেটান",
-    noExpenses: "এখনো কোনো খরচ নেই",
-    tapAdd: "+ চাপুন একটি যোগ করুন",
-    allSettled: "🎉 সব হিসাব মেটানো!",
-    settle: "মটান ✓",
-    settings: "সেটিংস",
-    groups: "গ্রুপ",
-    darkMode: "ডার্ক মড",
-    lightMode: "লাইট মোড",
-    language: "ভাষা",
-    currency: "মুদ্রা",
-    splitType: "বিভাজনর ধরন",
-    notifications: "বিজ্ঞপ্তি",
-    logout: "লগ আউট"
-  },
-  telugu: {
-    hello: "హలో, వినియోగదారు 👋",
-    welcome: "Equapay కి స్వాగతం",
-    getStarted: "ప్రారంభించండి",
-    tagline: "ఒత్తిడి లేకుండా భాగసమ్య ఖర్చులు నర్వహించండి.",
-    signIn: "సైన్ ఇన్",
-    signUp: "సైన్ అప్",
-    emailPlaceholder: "ఇమెయిల్ లేదా ఫోన్ నంబర",
-    passwordPlaceholder: "పాస్వర్డ్",
-    orContinue: "లేదా దీంత కొనసాగండి",
-    wrongPassword: "తప్పు ఇమెయిల్ లేదా పాస్వర్డ్!",
-    enterEmailPass: "దయచేసి ఇమెయిల్ మరియు పాస్వర్డ్ నమోదు చేయండి",
-    yourGroups: "మీ గ్రూప్లు",
-    searchGroups: "గ్రూప్లు వతకండి...",
-    noGroups: "ఇంకా గ్రూప్లు లేవ",
-    tapCreate: "+ నొక్కండి మీ మొదటి గ్రూప్ సృష్టించండి",
-    newGroup: "కొత్త గప్",
-    groupName: "గ్రూప్ పేరు",
-    groupMembers: "గ్రూప్ సభ్యులు",
-    description: "వవరణ (ఐచ్ఛికం)",
-    createGroup: "గ్రూప్ సృష్టించండి",
-    enterGroupDetails: "దయచేసి గ్రూప్ పేరు మరియు సభ్యులను నమదు చేయండి",
-    itemName: "వస్తువు పేరు",
-    whoPaid: "ఎవరు చల్లించారు?",
-    amount: "మొత",
-    confirmSplit: "విభజన నిర్రించండి",
-    enterExpense: "దయచేసి వస్తువు పేరు మరియు మొత్తం నమోదు చేయండి",
-    expenseHistory: "ఖర్చు చరిత్ర",
-    settleUp: "లక్క తీర్చండ",
-    noExpenses: "ఇంకా ఖర్చులు లేవు",
-    tapAdd: "+ నొక్కండి ఒకటి జోడించండి",
-    allSettled: "🎉 అన్నీ తర్చబడ్డాయి!",
-    settle: "తీర్చండి ✓",
-    settings: "సట్టింగులు",
-    groups: "గ్రూప్లు",
-    darkMode: "డార్క్ మడ్",
-    lightMode: "లైట్ మోడ్",
-    language: "భాష",
-    currency: "కరెన్సీ",
-    splitType: "విభజన రకం",
-    notifications: "నోటిఫికేషన్ల",
-    logout: "లాగ్ అవుట్"
-  },
-  tamil: {
-    hello: "வணக்கம், பயனர் 👋",
-    welcome: "Equapay க்கு வரவற்கிறோம்",
-    getStarted: "தொடங்குங்கள்",
-    tagline: "மன அழுத்தமின்றி பகரப்பட்ட செலவுகளை நிர்வகிக்கவும்.",
-    signIn: "உள்நுழைக",
-    signUp: "பதிவு செய்க",
-    emailPlaceholder: "மின்னஞ்சல் அல்லது தொலைபேசி எண",
-    passwordPlaceholder: "கடவுச்சொல்",
-    orContinue: "அல்லது இதனுடன் தொடரவும்",
-    wrongPassword: "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்!",
-    enterEmailPass: "மின்னஞ்சல் மற்றும் கடவுச்சொல் உள்ளிடவும்",
-    yourGroups: "உங்கள் குழுக்கள்",
-    searchGroups: "குழுக்களை தேடுங்கள்...",
-    noGroups: "இன்னும் குழுக்கள் இல்லை",
-    tapCreate: "+ அழுத்துங்கள் உங்கள் முதல் குழுவை உருவாக்குங்கள்",
-    newGroup: "புதிய குழு",
-    groupName: "குழு பெயர்",
-    groupMembers: "குழு உறப்பினர்கள்",
-    description: "விளக்கம் (விருப்பததேர்வு)",
-    createGroup: "குழு உருவாக்கு",
-    enterGroupDetails: "குழு பெயர் மற்றும் உறுப்பினர்களை உள்ளிடவும்",
-    itemName: "பொருள் பெயர்",
-    whoPaid: "யார் பணம் செலுத்தினார்?",
-    amount: "தொகை",
-    confirmSplit: "பிரிவை உறுதிப்படுத்துங்கள்",
-    enterExpense: "பொருள் பெயர் மற்றும் தொகையை உள்ளிடவும்",
-    expenseHistory: "செலவு வரலாறு",
-    settleUp: "கணக்கு தீர்க்கவும்",
-    noExpenses: "இன்னும் செலவுகள் இல்லை",
-    tapAdd: "+ அழுத்துங்கள் ஒன்றை சேர்க்கவும",
-    allSettled: "🎉 அனைத்தும் தீர்க்கப்பட்டது!",
-    settle: "தர்க்கவும் ✓",
-    settings: "அமைப்புகள்",
-    groups: "குழுக்கள்",
-    darkMode: "இருண்ட பயன்முறை",
-    lightMode: "ஒளி பயன்முறை",
-    language: "மொழி",
-    currency: "நணயம்",
-    splitType: "பிரிவு வக",
-    notifications: "அறிவிப்புகள்",
-    logout: "வெளியறு"
-  },
-  marathi: {
-    hello: "नमस्कार, वापरकर्ता 👋",
-    welcome: "Equapay मध्ये आपले स्वागत आहे",
-    getStarted: "सुरू करा",
-    tagline: "तणवाशिवाय सामायक खर्च व्यवस्थापित करा.",
-    signIn: "साइन इन करा",
-    signUp: "साइन अप करा",
-    emailPlaceholder: "ईमेल किंवा फोन नंबर",
-    passwordPlaceholder: "पासवर्ड",
-    orContinue: "किंवा यासह सुरू ठवा",
-    wrongPassword: "चुकीचा ईमेल किंवा पासवर्ड!",
-    enterEmailPass: "कृपया ईमेल आणि पासवर्ड पविष्ट करा",
-    yourGroups: "तुमचे गट",
-    searchGroups: "गट शोधा...",
-    noGroups: "अजून कोणतेही गट नाहीत",
-    tapCreate: "+ दाबा तुमचा पहिला गट तयार करा",
-    newGroup: "नवीन गट",
-    groupName: "गटचे नाव",
-    groupMembers: "गटाचे सदस्य",
-    description: "वर्णन (पर्यायी)",
-    createGroup: "गट तयार करा",
-    enterGroupDetails: "कृपया गटचे नाव आणि सदस्य प्रविष्ट करा",
-    itemName: "वस्तूचे नाव",
-    whoPaid: "कोणी पैसे दिले?",
-    amount: "रक्कम",
-    confirmSplit: "विभाजन पुष्टी करा",
-    enterExpense: "कृपया वसचे नाव आणि रक्कम प्रविष्ट करा",
-    expenseHistory: "खर्च इतिहास",
-    settleUp: "हिशब चुकता करा",
-    noExpenses: "अजून कोणतेही खर्च नाहीत",
-    tapAdd: "+ दाबा एक जोडा",
-    allSettled: "🎉 सर्व हिशोब चुकता!",
-    settle: "चकता करा ✓",
-    settings: "सेटिंग्ज",
-    groups: "गट",
-    darkMode: "डार्क मोड",
-    lightMode: "लाइट मोड",
-    language: "भाषा",
-    currency: "चलन",
-    splitType: "विभाजन प्रकर",
-    notifications: "सूचना",
-    logout: "लॉग आउट"
-  },
-  gujarati: {
-    hello: "નમસ, વપરાશકર્ 👋",
-    welcome: "Equapay માં આપનું સગત છે",
-    getStarted: "શર કરો",
-    tagline: "તણાવ વિના વહેંચાયેલ ખર્ચ સંચાલિત કરો.",
-    signIn: "સાઇન ઇન કરો",
-    signUp: "સાઇન અપ કરો",
-    emailPlaceholder: "ઇમેઇલ અથવા ફોન નંબર",
-    passwordPlaceholder: "પાસવર્ડ",
-    orContinue: "અથવા આ સથે ચાલુ રખો",
-    wrongPassword: "ખોટો ઇમેઇલ અથવા પાસવર્ડ!",
-    enterEmailPass: "કૃપ કરીને ઇમેઇલ અને પાસવર્ડ દાખલ કરો",
-    yourGroups: "તમારા જૂથ",
-    searchGroups: "જૂથ શોધો...",
-    noGroups: "હજી કોઈ જૂથ નથી",
-    tapCreate: "+ દબાવો તમારું પ્રથમ જૂથ બનવો",
-    newGroup: "નવું જૂથ",
-    groupName: "જૂથનું નામ",
-    groupMembers: "જૂથના સભ્યો",
-    description: "વર્ણન (વૈકલ્પિક)",
-    createGroup: "જૂથ બનાવો",
-    enterGroupDetails: "કૃપા કરીને જૂથન નામ અને સભ્યો દાખલ કરો",
-    itemName: "વસ્તુનું નામ",
-    whoPaid: "કોણે ચૂકવ્ય?",
-    amount: "રકમ",
-    confirmSplit: "વિભાજન પુષ્ટિ કરો",
-    enterExpense: "કૃપા કરીને વસ્તુનું નમ અને રકમ દાખલ કરો",
-    expenseHistory: "ખર ઇતિહાસ",
-    settleUp: "હિસબ ચૂકવો",
-    noExpenses: "હજી કોઈ ખર્ચ નથ",
-    tapAdd: "+ દબાવો એક ઉમેરો",
-    allSettled: "🎉 બધો હિસબ ચૂકવાઈ ગયો!",
-    settle: "ચકવો ✓",
-    settings: "સેટિંગ્",
-    groups: "જૂથો",
-    darkMode: "ડાર મોડ",
-    lightMode: "લાઇટ મોડ",
-    language: "ભાષા",
-    currency: "ચલણ",
-    splitType: "વિભાજન પ્રકાર",
-    notifications: "સૂચનાઓ",
-    logout: "લૉગ આઉટ"
-  },
-  kannada: {
-    hello: "ನಮಸ್ಕಾರ, ಬಳಕೆದಾರ 👋",
-    welcome: "Equapay ಗೆ ಸ್ವಾಗತ",
-    getStarted: "ಪ್ರಾರಂಭಿಸಿ",
-    tagline: "ಒತತಡವಿಲ್ಲದೆ ಹಂಚಿದ ವೆಚ್ಚಗಳನ್ನು ನಿರ್ವಹಿಸಿ.",
-    signIn: "ಸೈನ್ ಇನ",
-    signUp: "ಸೈನ್ ಅಪ್",
-    emailPlaceholder: "ಇಮಲ್ ಅಥವಾ ಫೋನ್ ನಂಬರ್",
-    passwordPlaceholder: "ಪಾಸವರ್ಡ್",
-    orContinue: "ಅಥವಾ ಇದರೊಂದಿಗೆ ಮುಂದವರಿಯಿರಿ",
-    wrongPassword: "ತಪ್ಪು ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್ವರ್ಡ್!",
-    enterEmailPass: "ದಯವಿಟ್ಟು ಇಮೇಲ್ ಮತ್ತು ಪಾಸ್ವರ್ಡ್ ನಮದಿಸಿ",
-    yourGroups: "ನಿಮ್ಮ ಗಪುಗಳು",
-    searchGroups: "ಗುಂಪುಗಳನ್ನು ಹಡುಕಿ...",
-    noGroups: "ಇನ್ನೂ ಯಾವುದೇ ಗುಂಪುಗಳಿಲಲ",
-    tapCreate: "+ ಒತ್ತಿರಿ ನಿಮ್ಮ ಮೊದಲ ಗುಂಪನ್ನು ರಚಸಿ",
-    newGroup: "ಹೊಸ ಗುಂಪು",
-    groupName: "ಗುಂಪಿನ ಹೆಸರು",
-    groupMembers: "ಗುಂಪಿನ ಸದಸ್ಯರು",
-    description: "ವಿವರಣೆ (ಐಚ್ಛಿಕ)",
-    createGroup: "ಗುಂಪು ರಚಿಸಿ",
-    enterGroupDetails: "ದಯವಿಟ್ಟು ಗುಂಪಿನ ಹೆಸರು ಮತತು ಸದಸ್ಯರನ್ನು ನಮೂದಿಸಿ",
-    itemName: "ವಸ್ತುವಿನ ಹೆಸರು",
-    whoPaid: "ಯಾರು ಪಾವತಿಸಿದರು?",
-    amount: "ಮೊತ್ತ",
-    confirmSplit: "ವಭಜನೆ ದೃಢೀಕರಿಸಿ",
-    enterExpense: "ದಯವಿಟ್ಟು ವಸ್ತುವಿನ ಹೆಸರು ಮತ್ತು ಮೊತ್ತ ನಮೂದಿಸಿ",
-    expenseHistory: "ವೆಚ್ಚದ ಇತಿಹಾಸ",
-    settleUp: "ಲೆಕ್ಕ ತೀರಿಸಿ",
-    noExpenses: "ಇನ್ನೂ ಯಾವುದೇ ವೆಚ್ಚಗಳಿಲ್ಲ",
-    tapAdd: "+ ಒತ್ತಿರಿ ಒಂದನ್ನು ಸೇರಿಸಿ",
-    allSettled: "🎉 ಎಲ್ಲಾ ಲೆಕ್ಕ ತೀರಿತು!",
-    settle: "ತೀರಿಸಿ ✓",
-    settings: "ಸೆಟ್ಟಗ್ಗಳು",
-    groups: "ಗುಂಪುಗಳು",
-    darkMode: "ಡರ್ಕ್ ಮೋಡ್",
-    lightMode: "ಲೈಟ್ ಮೋಡ್",
-    language: "ಭಾಷ",
-    currency: "ಕರೆನ್ಸಿ",
-    splitType: "ವಿಭಜನ ಪ್ರಕಾರ",
-    notifications: "ಅಧಸೂಚನೆಗಳು",
-    logout: "ಲಾಗ ಔಟ್"
-  },
-  malayalam: {
-    hello: "ഹല, ഉപയോക്താവ് 👋",
-    welcome: "Equapay ലേക്ക് സ്വാഗതം",
-    getStarted: "ആരംഭിക്കുക",
-    tagline: "സമ്മർദ്ദമില്ലാതെ പങ്കിട ചെലവുകൾ നിയന്ത്രിക്കുക.",
-    signIn: "സൈൻ ഇൻ",
-    signUp: "സൈൻ അപ്പ്",
-    emailPlaceholder: "ഇമയിൽ അല്ലെങ്കിൽ ഫൺ നമ്പർ",
-    passwordPlaceholder: "പസ്വേഡ്",
-    orContinue: "അലങ്കിൽ ഇതുമായി തുടരുക",
-    wrongPassword: "തെറ്റായ ഇമെയിൽ അല്ലെങ്കിൽ പാസ്വേഡ്!",
-    enterEmailPass: "ദയവായി ഇമെയിലും പാസ്വേഡും നൽകുക",
-    yourGroups: "നങ്ങളുടെ ഗ്രൂപ്പുകൾ",
-    searchGroups: "ഗ്രപ്പുകൾ തിരയുക...",
-    noGroups: "ഇനിയും ഗ്രൂപ്പുകളില്ല",
-    tapCreate: "+ അമർത്തുക നിങ്ങളുടെ ആദ ഗ്രൂപ്പ് സൃഷ്ടിക്കുക",
-    newGroup: "പതിയ ഗ്രൂപ്പ്",
-    groupName: "ഗ്രൂപ്പിന്റെ പേര്",
-    groupMembers: "ഗ്രൂപ്പ് അഗങ്ങൾ",
-    description: "വിവരണം (ഐച്ഛികം)",
-    createGroup: "ഗ്രൂപ്പ് സഷ്ടിക്കുക",
-    enterGroupDetails: "ദയവായി ഗ്രപ്പിന്റെ പേരും അംഗങ്ങള നൽകുക",
-    itemName: "ഇനത്തന്റെ പേര്",
-    whoPaid: "ആര് പണം നൽകി?",
-    amount: "തുക",
-    confirmSplit: "വിഭജനം സ്രീകരിക്കുക",
-    enterExpense: "ദയവയി ഇനത്തിന്റെ പേരും തുകയ നൽകുക",
-    expenseHistory: "ചെലവ് ചരിത്രം",
-    settleUp: "കണക്ക തീർക്കുക",
-    noExpenses: "ഇനിയും ചെലവുകളില്ല",
-    tapAdd: "+ അമർത്തുക ഒന്ന് ചേർക്കുക",
-    allSettled: "🎉 എല്ലാ കണക്കും തർന്നു!",
-    settle: "തീർക്കുക ✓",
-    settings: "ക്രമീകരണങ്ങൾ",
-    groups: "ഗപ്പുകൾ",
-    darkMode: "ഡാർക്ക് മോഡ",
-    lightMode: "ലൈറ്റ് മോഡ്",
-    language: "ഭാഷ",
-    currency: "കറൻസി",
-    splitType: "വിഭജന തരം",
-    notifications: "അറിയിപ്പുകൾ",
-    logout: "ലോഗ് ഔട"
-  }
-};
-
-let currentLang = 'english';
-
-window.applyLanguage = function(lang) {
-  currentLang = lang;
-  const t = translations[lang];
-
-  // Welcome page
-  document.querySelector('.welcome-text h1').textContent = t.hello;
-  document.querySelector('.welcome-text p').textContent = t.welcome;
-  document.querySelector('.start-btn').textContent = t.getStarted;
-
-  // Login page
-  document.querySelector('.tagline').textContent = t.tagline;
-  document.querySelector('#login input[type=text]').placeholder = t.emailPlaceholder;
-  document.querySelector('#login input[type=password]').placeholder = t.passwordPlaceholder;
-
-  // Dashboard
-  document.querySelector('.section-title').textContent = t.yourGroups;
-  document.querySelector('.search-bar').placeholder = t.searchGroups;
-
-  // Sidebar
-  document.querySelector('.active-sidebar-link').textContent = t.settings;
-  document.querySelectorAll('#sidebar p')[1].textContent = t.groups;
-
-  // Add Group page
-  document.querySelector('#addGroup h3').textContent = t.newGroup;
-  document.querySelector('#groupInput').placeholder = t.groupName;
-  document.querySelector('#groupMembers').placeholder = t.groupMembers;
-  document.querySelector('#groupDesc').placeholder = t.description;
-
-  // Add Expense page
-  document.querySelector('#expName').placeholder = t.itemName;
-  document.querySelector('.amount-input').placeholder = '₹ 0.00';
-
-  toggleMenu();
-  showLanguagePicker(false);
-}
-
-window.showLanguagePicker = function(show) {
-  let picker = document.getElementById('languagePicker');
-  if (!picker) return;
-  picker.style.display = show ? 'block' : 'none';
-}
-</script>
-   
+<script type="module" src="script.js"></script>
 </body>
 </html>

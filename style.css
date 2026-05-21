@@ -111,10 +111,15 @@ body {
 
 /* Chart Styling */
 .chart-container {
-    background: #f7f0b6; padding: 30px 10px 15px;
-    display: flex; justify-content: space-around;
-    align-items: flex-end; border-radius: 20px;
-    height: 180px; margin-bottom: 25px;
+    background: #f7f0b6;
+    padding: 30px 10px 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    border-radius: 20px;
+    height: 150px;
+    margin-bottom: 25px;
+    transition: background 0.3s;
 }
 .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .bar { 
@@ -199,3 +204,9 @@ input, textarea {
     margin-top: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+.language-picker { display: none; background: #f5f5f5; border-radius: 10px; padding: 10px; margin-top: 5px; }
+.lang-select { width: 100%; padding: 10px; border: 1px solid #eee; border-radius: 10px; background: white; font-size: 13px; margin-bottom: 10px; }
+.or-text { text-align: center; font-size: 12px; margin-top: 15px; color: #999; }
+.social-btns { display: flex; gap: 10px; margin-top: 10px; }
+.social-btn { border: 1px solid #eee; padding: 10px; border-radius: 15px; }
+.payer-select { width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 15px; background: white; font-size: 14px; }
