@@ -714,6 +714,21 @@ document.querySelector('.search-bar').oninput = function() {
     });
 };
 
+window.openGroup = function(groupId, group) {
+
+    currentGroup = {
+        id: groupId,
+        ...group
+    };
+
+    document.getElementById("groupTitle").innerText =
+        group.name;
+
+    showPage("apartment");
+
+    renderChart();
+    renderExpenseLog();
+};
 window.onload = () => {
     loadGroups();
 };
