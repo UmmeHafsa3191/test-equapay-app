@@ -1,21 +1,23 @@
+import { db, auth } from "./firebase.js";
+
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"
 // ============================================================
 //  SECTION 1: FIREBASE SETUP & AUTH
 // ============================================================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBYJel4b02QXpbQU7tWc2dd1ns36hknUbY",
-    authDomain: "equapay-52729.firebaseapp.com",
-    projectId: "equapay-52729",
-    storageBucket: "equapay-52729.firebasestorage.app",
-    messagingSenderId: "100025932427",
-    appId: "1:100025932427:web:53cae98e55b45ca4ae528e"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 window.firebaseSignIn = function () {
     const email = document.querySelector('#login input[type=text]').value.trim();
@@ -53,6 +55,13 @@ window.googleSignIn = function () {
         })
         .catch(err => alert(err.message));
 };
+window.showPage = function(pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    document.getElementById(pageId).classList.add('active');
+};
 
 // ============================================================
 //  SECTION 2: APP STATE
@@ -83,19 +92,54 @@ window.toggleMenu = function () {
 // ============================================================
 //  SECTION 4: GROUP MANAGEMENT
 // ============================================================
-window.addNewGroup = function () {
-    const groupName = document.getElementById('groupInput').value.trim();
-    const membersInput = document.getElementById('groupMembers').value.trim();
-    if (!groupName || !membersInput) { alert("Please enter group name and members"); return; }
-    const membersArray = membersInput.split(',').map(m => m.trim());
-    groups.push({ name: groupName, members: membersArray, expenses: [], settled: [] });
-    document.getElementById('groupInput').value = "";
-    document.getElementById('groupMembers').value = "";
-    document.getElementById('groupDesc').value = "";
-    renderDashboard();
-    showPage('dashboard');
-};
+window.addNewGroup = async function () {
 
+    const groupName =
+        document.getElementById("groupInput").value.trim();
+
+    const members =
+        document.getElementById("groupMembers")
+        .value
+        .split(",")
+        .map(m => m.trim());
+
+    const description =
+        document.getElementById("groupDesc").value.trim();
+
+    if (!groupName) {
+        alert("Enter group name");
+        return;
+    }
+
+    try {
+
+        await addDoc(
+            collection(db, "groups"),
+            {
+                name: groupName,
+                members: members,
+                description: description,
+                createdAt: Date.now()
+            }
+        );
+
+        alert("Group Created!");
+
+        document.getElementById("groupInput").value = "";
+        document.getElementById("groupMembers").value = "";
+        document.getElementById("groupDesc").value = "";
+
+        loadGroups();
+
+        showPage("dashboard");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Error creating group: " + error.message);
+    }
+};
 window.renderDashboard = function () {
     const list = document.getElementById('groupList');
     const noMsg = document.getElementById('noGroupsMsg');
@@ -252,6 +296,35 @@ msg.textContent = Math.abs(total - 100) < 1 ? '✓ 100% allocated!' : total.toFi
     }
 };
 
+async function loadGroups() {
+
+    const groupList =
+        document.getElementById("groupList");
+
+    groupList.innerHTML = "";
+
+    const snapshot =
+        await getDocs(
+            collection(db, "groups")
+        );
+
+    snapshot.forEach((docItem) => {
+
+        const group = docItem.data();
+
+        const card =
+            document.createElement("div");
+
+        card.className = "group-card";
+
+        card.innerHTML = `
+            <h4>${group.name}</h4>
+            <p>${group.members.join(", ")}</p>
+        `;
+
+        groupList.appendChild(card);
+    });
+}
 // ============================================================
 //  SECTION 6: EXPENSE MANAGEMENT
 // ============================================================
@@ -639,4 +712,8 @@ document.querySelector('.search-bar').oninput = function() {
         const name = card.querySelector('strong').textContent.toLowerCase();
         card.style.display = name.includes(query) ? 'flex' : 'none';
     });
+};
+
+window.onload = () => {
+    loadGroups();
 };
